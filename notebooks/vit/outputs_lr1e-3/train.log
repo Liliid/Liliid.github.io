@@ -1,0 +1,203 @@
+device: cuda NVIDIA GeForce RTX 4070 Ti SUPER
+Config(model='vit', img_size=32, patch=4, D=384, L=8, heads=6, mlp=1536, p_drop=0.0, pos='1d', data_frac=1.0, steps=7800, batch_size=256, lr=0.001, weight_decay=0.05, warmup=500, label_smoothing=0.1, eval_every=390, seed=0)
+ViT params: 14,244,490 | ResNet18 params: 11,173,962
+image =
+ tensor([[ 1.,  2.,  3.,  4.],
+        [ 5.,  6.,  7.,  8.],
+        [ 9., 10., 11., 12.],
+        [13., 14., 15., 16.]])
+patches (N=4, P²C=4) =
+ tensor([[ 1.,  2.,  5.,  6.],
+        [ 3.,  4.,  7.,  8.],
+        [ 9., 10., 13., 14.],
+        [11., 12., 15., 16.]])
+x_p E =
+ tensor([[0.600, 0.800],
+        [1.000, 1.200],
+        [2.200, 2.400],
+        [2.600, 2.800]])
+2x2 위치 임베딩 =
+ tensor([[0., 1.],
+        [2., 3.]]) 
+3x3로 보간 =
+ tensor([[0.000, 0.500, 1.000],
+        [1.000, 1.500, 2.000],
+        [2.000, 2.500, 3.000]])
+local: 거리 [[5.656854152679443, 4.0, 5.656854152679443], [4.0, 0.0, 4.0], [5.656854152679443, 4.0, 5.656854152679443]] → mean attention distance 2.73px
+global: 거리 [[5.656854152679443, 4.0, 5.656854152679443], [4.0, 0.0, 4.0], [5.656854152679443, 4.0, 5.656854152679443]] → mean attention distance 4.29px
+x: (2, 3, 32, 32) -> patches: (2, 64, 48) -> z0: (2, 65, 384) -> logits: (2, 10)
+train (50000, 3, 32, 32) test (10000, 3, 32, 32)
+[vit_10/s0] step   390 train loss 1.746 acc 0.417 test acc 0.4561 18s
+[vit_10/s0] step   780 train loss 1.557 acc 0.511 test acc 0.4914 36s
+[vit_10/s0] step  1170 train loss 1.495 acc 0.539 test acc 0.4975 53s
+[vit_10/s0] step  1560 train loss 1.403 acc 0.582 test acc 0.4985 71s
+[vit_10/s0] step  1950 train loss 1.302 acc 0.629 test acc 0.5136 88s
+[vit_10/s0] step  2340 train loss 1.139 acc 0.708 test acc 0.4908 106s
+[vit_10/s0] step  2730 train loss 0.939 acc 0.806 test acc 0.4978 123s
+[vit_10/s0] step  3120 train loss 0.771 acc 0.883 test acc 0.4640 140s
+[vit_10/s0] step  3510 train loss 0.670 acc 0.928 test acc 0.4733 158s
+[vit_10/s0] step  3900 train loss 0.617 acc 0.952 test acc 0.4709 176s
+[vit_10/s0] step  4290 train loss 0.581 acc 0.967 test acc 0.4675 193s
+[vit_10/s0] step  4680 train loss 0.555 acc 0.978 test acc 0.4739 210s
+[vit_10/s0] step  5070 train loss 0.536 acc 0.986 test acc 0.4688 227s
+[vit_10/s0] step  5460 train loss 0.521 acc 0.992 test acc 0.4831 244s
+[vit_10/s0] step  5850 train loss 0.511 acc 0.996 test acc 0.4824 261s
+[vit_10/s0] step  6240 train loss 0.505 acc 0.998 test acc 0.4843 278s
+[vit_10/s0] step  6630 train loss 0.503 acc 0.999 test acc 0.4792 295s
+[vit_10/s0] step  7020 train loss 0.502 acc 1.000 test acc 0.4827 312s
+[vit_10/s0] step  7410 train loss 0.501 acc 1.000 test acc 0.4821 329s
+[vit_10/s0] step  7800 train loss 0.501 acc 1.000 test acc 0.4816 347s
+[resnet_10/s0] step   390 train loss 1.401 acc 0.591 test acc 0.6491 12s
+[resnet_10/s0] step   780 train loss 0.866 acc 0.851 test acc 0.7233 23s
+[resnet_10/s0] step  1170 train loss 0.640 acc 0.951 test acc 0.7435 34s
+[resnet_10/s0] step  1560 train loss 0.548 acc 0.987 test acc 0.7696 45s
+[resnet_10/s0] step  1950 train loss 0.534 acc 0.991 test acc 0.7985 57s
+[resnet_10/s0] step  2340 train loss 0.519 acc 0.995 test acc 0.7942 68s
+[resnet_10/s0] step  2730 train loss 0.516 acc 0.996 test acc 0.7952 79s
+[resnet_10/s0] step  3120 train loss 0.511 acc 0.997 test acc 0.8087 90s
+[resnet_10/s0] step  3510 train loss 0.507 acc 0.998 test acc 0.8070 101s
+[resnet_10/s0] step  3900 train loss 0.503 acc 1.000 test acc 0.8142 112s
+[resnet_10/s0] step  4290 train loss 0.506 acc 0.999 test acc 0.8111 123s
+[resnet_10/s0] step  4680 train loss 0.504 acc 0.999 test acc 0.8141 134s
+[resnet_10/s0] step  5070 train loss 0.502 acc 1.000 test acc 0.8272 146s
+[resnet_10/s0] step  5460 train loss 0.501 acc 1.000 test acc 0.8302 157s
+[resnet_10/s0] step  5850 train loss 0.501 acc 1.000 test acc 0.8288 168s
+[resnet_10/s0] step  6240 train loss 0.501 acc 1.000 test acc 0.8296 179s
+[resnet_10/s0] step  6630 train loss 0.501 acc 1.000 test acc 0.8299 190s
+[resnet_10/s0] step  7020 train loss 0.501 acc 1.000 test acc 0.8300 201s
+[resnet_10/s0] step  7410 train loss 0.501 acc 1.000 test acc 0.8300 213s
+[resnet_10/s0] step  7800 train loss 0.501 acc 1.000 test acc 0.8290 224s
+[vit_30/s0] step   390 train loss 1.785 acc 0.397 test acc 0.4810 18s
+[vit_30/s0] step   780 train loss 1.616 acc 0.482 test acc 0.4775 35s
+[vit_30/s0] step  1170 train loss 1.590 acc 0.493 test acc 0.4901 53s
+[vit_30/s0] step  1560 train loss 1.564 acc 0.508 test acc 0.5240 71s
+[vit_30/s0] step  1950 train loss 1.545 acc 0.514 test acc 0.5049 88s
+[vit_30/s0] step  2340 train loss 1.517 acc 0.526 test acc 0.5324 106s
+[vit_30/s0] step  2730 train loss 1.491 acc 0.539 test acc 0.5211 124s
+[vit_30/s0] step  3120 train loss 1.476 acc 0.547 test acc 0.5272 141s
+[vit_30/s0] step  3510 train loss 1.439 acc 0.563 test acc 0.5491 158s
+[vit_30/s0] step  3900 train loss 1.399 acc 0.584 test acc 0.5613 176s
+[vit_30/s0] step  4290 train loss 1.354 acc 0.603 test acc 0.5576 193s
+[vit_30/s0] step  4680 train loss 1.292 acc 0.634 test acc 0.5615 210s
+[vit_30/s0] step  5070 train loss 1.228 acc 0.663 test acc 0.5760 227s
+[vit_30/s0] step  5460 train loss 1.159 acc 0.696 test acc 0.5781 244s
+[vit_30/s0] step  5850 train loss 1.071 acc 0.739 test acc 0.5827 261s
+[vit_30/s0] step  6240 train loss 0.982 acc 0.784 test acc 0.5811 278s
+[vit_30/s0] step  6630 train loss 0.916 acc 0.818 test acc 0.5831 295s
+[vit_30/s0] step  7020 train loss 0.860 acc 0.846 test acc 0.5781 313s
+[vit_30/s0] step  7410 train loss 0.839 acc 0.858 test acc 0.5791 330s
+[vit_30/s0] step  7800 train loss 0.825 acc 0.864 test acc 0.5793 347s
+[resnet_30/s0] step   390 train loss 1.465 acc 0.559 test acc 0.5787 11s
+[resnet_30/s0] step   780 train loss 0.998 acc 0.785 test acc 0.7583 22s
+[resnet_30/s0] step  1170 train loss 0.812 acc 0.870 test acc 0.7835 33s
+[resnet_30/s0] step  1560 train loss 0.703 acc 0.916 test acc 0.8111 44s
+[resnet_30/s0] step  1950 train loss 0.633 acc 0.948 test acc 0.8310 55s
+[resnet_30/s0] step  2340 train loss 0.584 acc 0.968 test acc 0.8539 66s
+[resnet_30/s0] step  2730 train loss 0.557 acc 0.979 test acc 0.8658 77s
+[resnet_30/s0] step  3120 train loss 0.540 acc 0.986 test acc 0.8595 88s
+[resnet_30/s0] step  3510 train loss 0.527 acc 0.991 test acc 0.8655 99s
+[resnet_30/s0] step  3900 train loss 0.519 acc 0.994 test acc 0.8721 110s
+[resnet_30/s0] step  4290 train loss 0.512 acc 0.997 test acc 0.8810 121s
+[resnet_30/s0] step  4680 train loss 0.509 acc 0.998 test acc 0.8876 132s
+[resnet_30/s0] step  5070 train loss 0.505 acc 0.999 test acc 0.8901 144s
+[resnet_30/s0] step  5460 train loss 0.503 acc 1.000 test acc 0.8915 155s
+[resnet_30/s0] step  5850 train loss 0.502 acc 1.000 test acc 0.8952 166s
+[resnet_30/s0] step  6240 train loss 0.502 acc 1.000 test acc 0.8951 177s
+[resnet_30/s0] step  6630 train loss 0.501 acc 1.000 test acc 0.8964 188s
+[resnet_30/s0] step  7020 train loss 0.501 acc 1.000 test acc 0.8958 199s
+[resnet_30/s0] step  7410 train loss 0.501 acc 1.000 test acc 0.8960 210s
+[resnet_30/s0] step  7800 train loss 0.501 acc 1.000 test acc 0.8970 221s
+[vit_100/s0] step   390 train loss 1.795 acc 0.390 test acc 0.4932 17s
+[vit_100/s0] step   780 train loss 1.635 acc 0.471 test acc 0.4635 34s
+[vit_100/s0] step  1170 train loss 1.615 acc 0.480 test acc 0.4917 51s
+[vit_100/s0] step  1560 train loss 1.610 acc 0.484 test acc 0.5048 68s
+[vit_100/s0] step  1950 train loss 1.585 acc 0.497 test acc 0.5184 86s
+[vit_100/s0] step  2340 train loss 1.562 acc 0.507 test acc 0.5384 103s
+[vit_100/s0] step  2730 train loss 1.541 acc 0.516 test acc 0.5389 120s
+[vit_100/s0] step  3120 train loss 1.516 acc 0.528 test acc 0.5414 137s
+[vit_100/s0] step  3510 train loss 1.487 acc 0.542 test acc 0.5636 154s
+[vit_100/s0] step  3900 train loss 1.465 acc 0.552 test acc 0.5644 171s
+[vit_100/s0] step  4290 train loss 1.444 acc 0.562 test acc 0.5750 188s
+[vit_100/s0] step  4680 train loss 1.413 acc 0.578 test acc 0.5811 205s
+[vit_100/s0] step  5070 train loss 1.384 acc 0.590 test acc 0.5980 223s
+[vit_100/s0] step  5460 train loss 1.359 acc 0.603 test acc 0.6029 240s
+[vit_100/s0] step  5850 train loss 1.339 acc 0.611 test acc 0.6104 257s
+[vit_100/s0] step  6240 train loss 1.309 acc 0.626 test acc 0.6189 274s
+[vit_100/s0] step  6630 train loss 1.288 acc 0.635 test acc 0.6270 291s
+[vit_100/s0] step  7020 train loss 1.277 acc 0.641 test acc 0.6298 308s
+[vit_100/s0] step  7410 train loss 1.264 acc 0.646 test acc 0.6353 325s
+[vit_100/s0] step  7800 train loss 1.258 acc 0.651 test acc 0.6351 342s
+[resnet_100/s0] step   390 train loss 1.479 acc 0.550 test acc 0.6451 11s
+[resnet_100/s0] step   780 train loss 1.039 acc 0.766 test acc 0.7818 22s
+[resnet_100/s0] step  1170 train loss 0.876 acc 0.840 test acc 0.8363 33s
+[resnet_100/s0] step  1560 train loss 0.798 acc 0.874 test acc 0.8549 44s
+[resnet_100/s0] step  1950 train loss 0.739 acc 0.900 test acc 0.8612 55s
+[resnet_100/s0] step  2340 train loss 0.696 acc 0.918 test acc 0.8712 66s
+[resnet_100/s0] step  2730 train loss 0.664 acc 0.931 test acc 0.8864 77s
+[resnet_100/s0] step  3120 train loss 0.634 acc 0.945 test acc 0.9028 88s
+[resnet_100/s0] step  3510 train loss 0.616 acc 0.951 test acc 0.8979 99s
+[resnet_100/s0] step  3900 train loss 0.593 acc 0.962 test acc 0.9044 110s
+[resnet_100/s0] step  4290 train loss 0.575 acc 0.969 test acc 0.9168 121s
+[resnet_100/s0] step  4680 train loss 0.558 acc 0.977 test acc 0.9239 132s
+[resnet_100/s0] step  5070 train loss 0.545 acc 0.983 test acc 0.9284 143s
+[resnet_100/s0] step  5460 train loss 0.535 acc 0.987 test acc 0.9299 154s
+[resnet_100/s0] step  5850 train loss 0.524 acc 0.992 test acc 0.9329 165s
+[resnet_100/s0] step  6240 train loss 0.518 acc 0.994 test acc 0.9318 176s
+[resnet_100/s0] step  6630 train loss 0.514 acc 0.996 test acc 0.9370 187s
+[resnet_100/s0] step  7020 train loss 0.512 acc 0.997 test acc 0.9375 198s
+[resnet_100/s0] step  7410 train loss 0.510 acc 0.997 test acc 0.9388 209s
+[resnet_100/s0] step  7800 train loss 0.510 acc 0.998 test acc 0.9380 220s
+[vit_pos2d_100/s0] step   390 train loss 1.790 acc 0.393 test acc 0.4762 17s
+[vit_pos2d_100/s0] step   780 train loss 1.633 acc 0.475 test acc 0.5039 34s
+[vit_pos2d_100/s0] step  1170 train loss 1.610 acc 0.485 test acc 0.4914 51s
+[vit_pos2d_100/s0] step  1560 train loss 1.589 acc 0.493 test acc 0.5220 69s
+[vit_pos2d_100/s0] step  1950 train loss 1.568 acc 0.504 test acc 0.4978 86s
+[vit_pos2d_100/s0] step  2340 train loss 1.558 acc 0.510 test acc 0.5293 103s
+[vit_pos2d_100/s0] step  2730 train loss 1.526 acc 0.524 test acc 0.5411 120s
+[vit_pos2d_100/s0] step  3120 train loss 1.509 acc 0.533 test acc 0.5441 137s
+[vit_pos2d_100/s0] step  3510 train loss 1.481 acc 0.545 test acc 0.5724 154s
+[vit_pos2d_100/s0] step  3900 train loss 1.452 acc 0.558 test acc 0.5654 171s
+[vit_pos2d_100/s0] step  4290 train loss 1.424 acc 0.573 test acc 0.5820 188s
+[vit_pos2d_100/s0] step  4680 train loss 1.391 acc 0.589 test acc 0.5934 205s
+[vit_pos2d_100/s0] step  5070 train loss 1.368 acc 0.598 test acc 0.6019 223s
+[vit_pos2d_100/s0] step  5460 train loss 1.347 acc 0.608 test acc 0.6126 240s
+[vit_pos2d_100/s0] step  5850 train loss 1.321 acc 0.620 test acc 0.6207 257s
+[vit_pos2d_100/s0] step  6240 train loss 1.291 acc 0.634 test acc 0.6217 274s
+[vit_pos2d_100/s0] step  6630 train loss 1.270 acc 0.644 test acc 0.6329 291s
+[vit_pos2d_100/s0] step  7020 train loss 1.259 acc 0.649 test acc 0.6362 308s
+[vit_pos2d_100/s0] step  7410 train loss 1.247 acc 0.655 test acc 0.6366 325s
+[vit_pos2d_100/s0] step  7800 train loss 1.240 acc 0.658 test acc 0.6369 342s
+[vit_nopos_100/s0] step   390 train loss 1.857 acc 0.357 test acc 0.4156 17s
+[vit_nopos_100/s0] step   780 train loss 1.702 acc 0.437 test acc 0.4632 34s
+[vit_nopos_100/s0] step  1170 train loss 1.657 acc 0.459 test acc 0.4568 51s
+[vit_nopos_100/s0] step  1560 train loss 1.637 acc 0.469 test acc 0.4629 68s
+[vit_nopos_100/s0] step  1950 train loss 1.620 acc 0.477 test acc 0.4769 85s
+[vit_nopos_100/s0] step  2340 train loss 1.596 acc 0.488 test acc 0.4978 102s
+[vit_nopos_100/s0] step  2730 train loss 1.577 acc 0.497 test acc 0.5035 119s
+[vit_nopos_100/s0] step  3120 train loss 1.554 acc 0.509 test acc 0.5188 137s
+[vit_nopos_100/s0] step  3510 train loss 1.534 acc 0.519 test acc 0.5219 154s
+[vit_nopos_100/s0] step  3900 train loss 1.523 acc 0.523 test acc 0.5300 171s
+[vit_nopos_100/s0] step  4290 train loss 1.496 acc 0.538 test acc 0.5375 188s
+[vit_nopos_100/s0] step  4680 train loss 1.466 acc 0.552 test acc 0.5354 205s
+[vit_nopos_100/s0] step  5070 train loss 1.438 acc 0.565 test acc 0.5570 222s
+[vit_nopos_100/s0] step  5460 train loss 1.411 acc 0.577 test acc 0.5708 239s
+[vit_nopos_100/s0] step  5850 train loss 1.388 acc 0.588 test acc 0.5663 256s
+[vit_nopos_100/s0] step  6240 train loss 1.364 acc 0.600 test acc 0.5845 273s
+[vit_nopos_100/s0] step  6630 train loss 1.339 acc 0.612 test acc 0.5880 290s
+[vit_nopos_100/s0] step  7020 train loss 1.330 acc 0.617 test acc 0.5893 307s
+[vit_nopos_100/s0] step  7410 train loss 1.313 acc 0.624 test acc 0.5960 324s
+[vit_nopos_100/s0] step  7800 train loss 1.308 acc 0.627 test acc 0.5955 341s
+vit_10          n_train   5000  test acc 0.4816 ± 0.0000  params 14,244,490
+resnet_10       n_train   5000  test acc 0.8290 ± 0.0000  params 11,173,962
+vit_30          n_train  15000  test acc 0.5793 ± 0.0000  params 14,244,490
+resnet_30       n_train  15000  test acc 0.8970 ± 0.0000  params 11,173,962
+vit_100         n_train  50000  test acc 0.6351 ± 0.0000  params 14,244,490
+resnet_100      n_train  50000  test acc 0.9380 ± 0.0000  params 11,173,962
+vit_pos2d_100   n_train  50000  test acc 0.6369 ± 0.0000  params 14,222,986
+vit_nopos_100   n_train  50000  test acc 0.5955 ± 0.0000  params 14,219,530
+C:\Users\chobh\Desktop\paper-review-blog\notebooks\vit\vit.py:499: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+C:\Users\chobh\Desktop\paper-review-blog\notebooks\vit\vit.py:507: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+C:\Users\chobh\Desktop\paper-review-blog\notebooks\vit\vit.py:525: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()

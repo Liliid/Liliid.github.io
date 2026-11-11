@@ -1,0 +1,405 @@
+device: cuda NVIDIA GeForce RTX 4070 Ti SUPER
+Config(N=3, d_model=256, d_ff=1024, h=8, p_drop=0.1, eps_ls=0.1, scale=True, pos='sin', vocab_size=8000, max_len=64, batch_size=128, epochs=20, warmup_steps=2000, lr_factor=1.0, seed=0)
+QK^T =
+ tensor([[1., 0., 1.],
+        [0., 1., 1.],
+        [1., 1., 2.]])
+QK^T / sqrt(2) =
+ tensor([[0.707, 0.000, 0.707],
+        [0.000, 0.707, 0.707],
+        [0.707, 0.707, 1.414]])
+attention =
+ tensor([[0.401, 0.198, 0.401],
+        [0.198, 0.401, 0.401],
+        [0.248, 0.248, 0.503]])
+output =
+ tensor([[1.604, 1.599],
+        [1.401, 2.006],
+        [1.759, 2.007]])
+{'d_k': 4, 'var_dot': 3.9774, 'max_p_unscaled': 0.4922, 'max_p_scaled': 0.3043, 'jac_norm_unscaled': 0.3369, 'jac_norm_scaled': 0.3407}
+{'d_k': 64, 'var_dot': 63.7969, 'max_p_unscaled': 0.8629, 'max_p_scaled': 0.3189, 'jac_norm_unscaled': 0.1593, 'jac_norm_scaled': 0.3466}
+{'d_k': 512, 'var_dot': 512.5607, 'max_p_unscaled': 0.9515, 'max_p_scaled': 0.3194, 'jac_norm_unscaled': 0.0628, 'jac_norm_scaled': 0.3477}
+PE (pos=0..3, d_model=4) =
+ tensor([[ 0.000,  1.000,  0.000,  1.000],
+        [ 0.841,  0.540,  0.010,  1.000],
+        [ 0.909, -0.416,  0.020,  1.000],
+        [ 0.141, -0.990,  0.030,  1.000]])
+M (k=1) =
+ tensor([[ 0.540,  0.841,  0.000,  0.000],
+        [-0.841,  0.540,  0.000,  0.000],
+        [ 0.000,  0.000,  1.000,  0.010],
+        [ 0.000,  0.000, -0.010,  1.000]])
+M @ PE(pos) =
+ tensor([[ 0.841,  0.540,  0.010,  1.000],
+        [ 0.909, -0.416,  0.020,  1.000],
+        [ 0.141, -0.990,  0.030,  1.000]]) 
+PE(pos+1) =
+ tensor([[ 0.841,  0.540,  0.010,  1.000],
+        [ 0.909, -0.416,  0.020,  1.000],
+        [ 0.141, -0.990,  0.030,  1.000]])
+mask 없음 =
+ tensor([[0.232, 0.085, 0.052, 0.631],
+        [0.197, 0.534, 0.072, 0.197],
+        [0.129, 0.213, 0.579, 0.078],
+        [0.197, 0.072, 0.197, 0.534]]) 
+causal mask =
+ tensor([[1.000, 0.000, 0.000, 0.000],
+        [0.269, 0.731, 0.000, 0.000],
+        [0.140, 0.231, 0.629, 0.000],
+        [0.197, 0.072, 0.197, 0.534]])
+h=1: split (2, 1, 5, 256), out (2, 5, 256), params 263,168
+h=8: split (2, 8, 5, 32), out (2, 5, 256), params 263,168
+
+
+
+vocab: 8000
+{'train': 29000, 'validation': 1014, 'test': 1000} 예시: ['▁Two', '▁young,', '▁White', '▁males', '▁are', '▁outside', '▁near', '▁many', '▁bush', 'es.']
+[base/s1] epoch  1 step   227 train 7.533 val 5.986 (ppl 397.71) 6s
+[base/s1] epoch  2 step   454 train 5.954 val 5.009 (ppl 149.77) 13s
+[base/s1] epoch  3 step   681 train 5.221 val 4.271 (ppl 71.56) 19s
+[base/s1] epoch  4 step   908 train 4.662 val 3.715 (ppl 41.07) 26s
+[base/s1] epoch  5 step  1135 train 4.223 val 3.253 (ppl 25.86) 32s
+[base/s1] epoch  6 step  1362 train 3.866 val 2.948 (ppl 19.08) 38s
+[base/s1] epoch  7 step  1589 train 3.592 val 2.702 (ppl 14.91) 44s
+[base/s1] epoch  8 step  1816 train 3.370 val 2.490 (ppl 12.06) 51s
+[base/s1] epoch  9 step  2043 train 3.200 val 2.431 (ppl 11.37) 56s
+[base/s1] epoch 10 step  2270 train 3.050 val 2.278 (ppl 9.76) 63s
+[base/s1] epoch 11 step  2497 train 2.895 val 2.182 (ppl 8.86) 71s
+[base/s1] epoch 12 step  2724 train 2.763 val 2.133 (ppl 8.44) 79s
+[base/s1] epoch 13 step  2951 train 2.657 val 2.063 (ppl 7.87) 86s
+[base/s1] epoch 14 step  3178 train 2.567 val 2.018 (ppl 7.53) 93s
+[base/s1] epoch 15 step  3405 train 2.489 val 2.006 (ppl 7.43) 101s
+[base/s1] epoch 16 step  3632 train 2.424 val 1.964 (ppl 7.13) 107s
+[base/s1] epoch 17 step  3859 train 2.362 val 1.959 (ppl 7.09) 114s
+[base/s1] epoch 18 step  4086 train 2.311 val 1.941 (ppl 6.96) 121s
+[base/s1] epoch 19 step  4313 train 2.254 val 1.954 (ppl 7.06) 128s
+[base/s1] epoch 20 step  4540 train 2.216 val 1.935 (ppl 6.92) 134s
+[base/s1] test BLEU 34.19 | params 7,577,600 | 135s
+[base/s2] epoch  1 step   227 train 7.559 val 5.999 (ppl 402.94) 7s
+[base/s2] epoch  2 step   454 train 5.992 val 5.157 (ppl 173.66) 13s
+[base/s2] epoch  3 step   681 train 5.243 val 4.295 (ppl 73.33) 19s
+[base/s2] epoch  4 step   908 train 4.664 val 3.732 (ppl 41.76) 25s
+[base/s2] epoch  5 step  1135 train 4.232 val 3.277 (ppl 26.49) 32s
+[base/s2] epoch  6 step  1362 train 3.877 val 2.948 (ppl 19.06) 38s
+[base/s2] epoch  7 step  1589 train 3.600 val 2.768 (ppl 15.92) 44s
+[base/s2] epoch  8 step  1816 train 3.378 val 2.536 (ppl 12.64) 51s
+[base/s2] epoch  9 step  2043 train 3.210 val 2.379 (ppl 10.80) 57s
+[base/s2] epoch 10 step  2270 train 3.047 val 2.266 (ppl 9.65) 63s
+[base/s2] epoch 11 step  2497 train 2.889 val 2.192 (ppl 8.95) 69s
+[base/s2] epoch 12 step  2724 train 2.770 val 2.114 (ppl 8.28) 75s
+[base/s2] epoch 13 step  2951 train 2.665 val 2.065 (ppl 7.89) 81s
+[base/s2] epoch 14 step  3178 train 2.575 val 2.037 (ppl 7.67) 88s
+[base/s2] epoch 15 step  3405 train 2.499 val 1.982 (ppl 7.25) 95s
+[base/s2] epoch 16 step  3632 train 2.426 val 1.972 (ppl 7.18) 101s
+[base/s2] epoch 17 step  3859 train 2.362 val 1.969 (ppl 7.16) 107s
+[base/s2] epoch 18 step  4086 train 2.311 val 1.954 (ppl 7.06) 113s
+[base/s2] epoch 19 step  4313 train 2.259 val 1.948 (ppl 7.02) 119s
+[base/s2] epoch 20 step  4540 train 2.217 val 1.919 (ppl 6.81) 126s
+[base/s2] test BLEU 33.98 | params 7,577,600 | 127s
+[h1/s1] epoch  1 step   227 train 7.530 val 6.020 (ppl 411.62) 6s
+[h1/s1] epoch  2 step   454 train 5.938 val 4.945 (ppl 140.41) 12s
+[h1/s1] epoch  3 step   681 train 5.163 val 4.197 (ppl 66.50) 18s
+[h1/s1] epoch  4 step   908 train 4.622 val 3.660 (ppl 38.84) 24s
+[h1/s1] epoch  5 step  1135 train 4.206 val 3.252 (ppl 25.84) 30s
+[h1/s1] epoch  6 step  1362 train 3.859 val 2.967 (ppl 19.43) 36s
+[h1/s1] epoch  7 step  1589 train 3.586 val 2.688 (ppl 14.71) 42s
+[h1/s1] epoch  8 step  1816 train 3.382 val 2.497 (ppl 12.14) 48s
+[h1/s1] epoch  9 step  2043 train 3.232 val 2.442 (ppl 11.50) 54s
+[h1/s1] epoch 10 step  2270 train 3.093 val 2.312 (ppl 10.10) 59s
+[h1/s1] epoch 11 step  2497 train 2.938 val 2.186 (ppl 8.90) 65s
+[h1/s1] epoch 12 step  2724 train 2.817 val 2.149 (ppl 8.57) 71s
+[h1/s1] epoch 13 step  2951 train 2.718 val 2.062 (ppl 7.86) 77s
+[h1/s1] epoch 14 step  3178 train 2.630 val 2.035 (ppl 7.65) 83s
+[h1/s1] epoch 15 step  3405 train 2.558 val 2.020 (ppl 7.54) 89s
+[h1/s1] epoch 16 step  3632 train 2.493 val 1.979 (ppl 7.23) 95s
+[h1/s1] epoch 17 step  3859 train 2.431 val 1.984 (ppl 7.27) 101s
+[h1/s1] epoch 18 step  4086 train 2.381 val 1.962 (ppl 7.11) 106s
+[h1/s1] epoch 19 step  4313 train 2.332 val 1.969 (ppl 7.16) 113s
+[h1/s1] epoch 20 step  4540 train 2.290 val 1.952 (ppl 7.04) 119s
+[h1/s1] test BLEU 33.67 | params 7,577,600 | 120s
+[h1/s2] epoch  1 step   227 train 7.557 val 6.081 (ppl 437.25) 6s
+[h1/s2] epoch  2 step   454 train 5.969 val 5.020 (ppl 151.43) 12s
+[h1/s2] epoch  3 step   681 train 5.190 val 4.218 (ppl 67.92) 17s
+[h1/s2] epoch  4 step   908 train 4.637 val 3.706 (ppl 40.70) 24s
+[h1/s2] epoch  5 step  1135 train 4.222 val 3.289 (ppl 26.81) 31s
+[h1/s2] epoch  6 step  1362 train 3.889 val 2.965 (ppl 19.39) 38s
+[h1/s2] epoch  7 step  1589 train 3.613 val 2.765 (ppl 15.88) 44s
+[h1/s2] epoch  8 step  1816 train 3.400 val 2.606 (ppl 13.54) 51s
+[h1/s2] epoch  9 step  2043 train 3.261 val 2.464 (ppl 11.75) 59s
+[h1/s2] epoch 10 step  2270 train 3.103 val 2.317 (ppl 10.15) 66s
+[h1/s2] epoch 11 step  2497 train 2.957 val 2.228 (ppl 9.29) 73s
+[h1/s2] epoch 12 step  2724 train 2.844 val 2.155 (ppl 8.63) 81s
+[h1/s2] epoch 13 step  2951 train 2.738 val 2.107 (ppl 8.22) 88s
+[h1/s2] epoch 14 step  3178 train 2.648 val 2.073 (ppl 7.95) 95s
+[h1/s2] epoch 15 step  3405 train 2.574 val 2.025 (ppl 7.58) 103s
+[h1/s2] epoch 16 step  3632 train 2.507 val 1.995 (ppl 7.35) 108s
+[h1/s2] epoch 17 step  3859 train 2.444 val 2.013 (ppl 7.49) 115s
+[h1/s2] epoch 18 step  4086 train 2.394 val 1.983 (ppl 7.27) 121s
+[h1/s2] epoch 19 step  4313 train 2.346 val 1.987 (ppl 7.30) 127s
+[h1/s2] epoch 20 step  4540 train 2.299 val 1.965 (ppl 7.13) 133s
+[h1/s2] test BLEU 34.32 | params 7,577,600 | 133s
+[h4/s1] epoch  1 step   227 train 7.528 val 5.991 (ppl 399.71) 6s
+[h4/s1] epoch  2 step   454 train 5.941 val 4.990 (ppl 146.95) 12s
+[h4/s1] epoch  3 step   681 train 5.193 val 4.228 (ppl 68.61) 19s
+[h4/s1] epoch  4 step   908 train 4.636 val 3.677 (ppl 39.55) 26s
+[h4/s1] epoch  5 step  1135 train 4.197 val 3.244 (ppl 25.64) 32s
+[h4/s1] epoch  6 step  1362 train 3.846 val 2.949 (ppl 19.08) 39s
+[h4/s1] epoch  7 step  1589 train 3.567 val 2.681 (ppl 14.59) 45s
+[h4/s1] epoch  8 step  1816 train 3.354 val 2.488 (ppl 12.04) 51s
+[h4/s1] epoch  9 step  2043 train 3.190 val 2.394 (ppl 10.96) 58s
+[h4/s1] epoch 10 step  2270 train 3.035 val 2.265 (ppl 9.63) 65s
+[h4/s1] epoch 11 step  2497 train 2.882 val 2.149 (ppl 8.58) 71s
+[h4/s1] epoch 12 step  2724 train 2.757 val 2.092 (ppl 8.11) 77s
+[h4/s1] epoch 13 step  2951 train 2.656 val 2.025 (ppl 7.57) 83s
+[h4/s1] epoch 14 step  3178 train 2.569 val 1.992 (ppl 7.33) 89s
+[h4/s1] epoch 15 step  3405 train 2.490 val 1.973 (ppl 7.19) 96s
+[h4/s1] epoch 16 step  3632 train 2.427 val 1.940 (ppl 6.96) 103s
+[h4/s1] epoch 17 step  3859 train 2.366 val 1.929 (ppl 6.89) 109s
+[h4/s1] epoch 18 step  4086 train 2.316 val 1.913 (ppl 6.78) 115s
+[h4/s1] epoch 19 step  4313 train 2.264 val 1.911 (ppl 6.76) 121s
+[h4/s1] epoch 20 step  4540 train 2.221 val 1.915 (ppl 6.79) 127s
+[h4/s1] test BLEU 35.40 | params 7,577,600 | 127s
+[h4/s2] epoch  1 step   227 train 7.559 val 5.999 (ppl 403.04) 7s
+[h4/s2] epoch  2 step   454 train 5.983 val 5.067 (ppl 158.75) 12s
+[h4/s2] epoch  3 step   681 train 5.223 val 4.260 (ppl 70.80) 19s
+[h4/s2] epoch  4 step   908 train 4.636 val 3.686 (ppl 39.88) 26s
+[h4/s2] epoch  5 step  1135 train 4.204 val 3.252 (ppl 25.85) 32s
+[h4/s2] epoch  6 step  1362 train 3.863 val 2.923 (ppl 18.59) 38s
+[h4/s2] epoch  7 step  1589 train 3.595 val 2.749 (ppl 15.63) 45s
+[h4/s2] epoch  8 step  1816 train 3.374 val 2.536 (ppl 12.63) 52s
+[h4/s2] epoch  9 step  2043 train 3.216 val 2.398 (ppl 11.01) 58s
+[h4/s2] epoch 10 step  2270 train 3.052 val 2.254 (ppl 9.53) 64s
+[h4/s2] epoch 11 step  2497 train 2.903 val 2.183 (ppl 8.88) 71s
+[h4/s2] epoch 12 step  2724 train 2.780 val 2.093 (ppl 8.11) 77s
+[h4/s2] epoch 13 step  2951 train 2.679 val 2.063 (ppl 7.87) 84s
+[h4/s2] epoch 14 step  3178 train 2.588 val 2.031 (ppl 7.62) 90s
+[h4/s2] epoch 15 step  3405 train 2.514 val 1.975 (ppl 7.21) 96s
+[h4/s2] epoch 16 step  3632 train 2.445 val 1.953 (ppl 7.05) 103s
+[h4/s2] epoch 17 step  3859 train 2.382 val 1.971 (ppl 7.17) 109s
+[h4/s2] epoch 18 step  4086 train 2.333 val 1.932 (ppl 6.91) 115s
+[h4/s2] epoch 19 step  4313 train 2.283 val 1.946 (ppl 7.00) 122s
+[h4/s2] epoch 20 step  4540 train 2.238 val 1.918 (ppl 6.81) 128s
+[h4/s2] test BLEU 34.91 | params 7,577,600 | 129s
+[h32/s1] epoch  1 step   227 train 7.540 val 5.997 (ppl 402.21) 6s
+[h32/s1] epoch  2 step   454 train 5.965 val 5.025 (ppl 152.23) 12s
+[h32/s1] epoch  3 step   681 train 5.249 val 4.341 (ppl 76.76) 18s
+[h32/s1] epoch  4 step   908 train 4.738 val 3.848 (ppl 46.91) 25s
+[h32/s1] epoch  5 step  1135 train 4.319 val 3.376 (ppl 29.25) 31s
+[h32/s1] epoch  6 step  1362 train 3.940 val 3.046 (ppl 21.02) 37s
+[h32/s1] epoch  7 step  1589 train 3.646 val 2.766 (ppl 15.90) 44s
+[h32/s1] epoch  8 step  1816 train 3.415 val 2.594 (ppl 13.38) 50s
+[h32/s1] epoch  9 step  2043 train 3.241 val 2.500 (ppl 12.19) 56s
+[h32/s1] epoch 10 step  2270 train 3.074 val 2.423 (ppl 11.28) 63s
+[h32/s1] epoch 11 step  2497 train 2.923 val 2.238 (ppl 9.37) 69s
+[h32/s1] epoch 12 step  2724 train 2.791 val 2.226 (ppl 9.26) 75s
+[h32/s1] epoch 13 step  2951 train 2.683 val 2.112 (ppl 8.26) 82s
+[h32/s1] epoch 14 step  3178 train 2.590 val 2.099 (ppl 8.16) 88s
+[h32/s1] epoch 15 step  3405 train 2.507 val 2.088 (ppl 8.07) 94s
+[h32/s1] epoch 16 step  3632 train 2.442 val 2.045 (ppl 7.73) 101s
+[h32/s1] epoch 17 step  3859 train 2.375 val 2.048 (ppl 7.75) 107s
+[h32/s1] epoch 18 step  4086 train 2.327 val 2.040 (ppl 7.69) 113s
+[h32/s1] epoch 19 step  4313 train 2.267 val 2.039 (ppl 7.68) 119s
+[h32/s1] epoch 20 step  4540 train 2.227 val 2.032 (ppl 7.63) 126s
+[h32/s1] test BLEU 32.71 | params 7,577,600 | 127s
+[h32/s2] epoch  1 step   227 train 7.565 val 6.001 (ppl 403.84) 6s
+[h32/s2] epoch  2 step   454 train 5.979 val 5.061 (ppl 157.74) 13s
+[h32/s2] epoch  3 step   681 train 5.256 val 4.390 (ppl 80.63) 19s
+[h32/s2] epoch  4 step   908 train 4.753 val 3.863 (ppl 47.62) 26s
+[h32/s2] epoch  5 step  1135 train 4.328 val 3.415 (ppl 30.41) 32s
+[h32/s2] epoch  6 step  1362 train 3.966 val 3.045 (ppl 21.02) 38s
+[h32/s2] epoch  7 step  1589 train 3.666 val 2.829 (ppl 16.93) 44s
+[h32/s2] epoch  8 step  1816 train 3.427 val 2.614 (ppl 13.66) 51s
+[h32/s2] epoch  9 step  2043 train 3.254 val 2.476 (ppl 11.90) 58s
+[h32/s2] epoch 10 step  2270 train 3.087 val 2.335 (ppl 10.33) 64s
+[h32/s2] epoch 11 step  2497 train 2.932 val 2.237 (ppl 9.37) 70s
+[h32/s2] epoch 12 step  2724 train 2.805 val 2.177 (ppl 8.82) 76s
+[h32/s2] epoch 13 step  2951 train 2.694 val 2.139 (ppl 8.49) 82s
+[h32/s2] epoch 14 step  3178 train 2.598 val 2.101 (ppl 8.18) 89s
+[h32/s2] epoch 15 step  3405 train 2.519 val 2.059 (ppl 7.84) 95s
+[h32/s2] epoch 16 step  3632 train 2.444 val 2.055 (ppl 7.81) 101s
+[h32/s2] epoch 17 step  3859 train 2.382 val 2.042 (ppl 7.70) 108s
+[h32/s2] epoch 18 step  4086 train 2.330 val 2.035 (ppl 7.65) 114s
+[h32/s2] epoch 19 step  4313 train 2.276 val 2.042 (ppl 7.71) 120s
+[h32/s2] epoch 20 step  4540 train 2.231 val 2.018 (ppl 7.52) 127s
+[h32/s2] test BLEU 32.43 | params 7,577,600 | 128s
+[learned_pe/s1] epoch  1 step   227 train 7.540 val 6.012 (ppl 408.25) 6s
+[learned_pe/s1] epoch  2 step   454 train 5.949 val 4.985 (ppl 146.15) 13s
+[learned_pe/s1] epoch  3 step   681 train 5.181 val 4.276 (ppl 71.96) 19s
+[learned_pe/s1] epoch  4 step   908 train 4.649 val 3.771 (ppl 43.43) 25s
+[learned_pe/s1] epoch  5 step  1135 train 4.220 val 3.328 (ppl 27.89) 32s
+[learned_pe/s1] epoch  6 step  1362 train 3.845 val 2.974 (ppl 19.58) 39s
+[learned_pe/s1] epoch  7 step  1589 train 3.531 val 2.702 (ppl 14.91) 45s
+[learned_pe/s1] epoch  8 step  1816 train 3.313 val 2.522 (ppl 12.46) 51s
+[learned_pe/s1] epoch  9 step  2043 train 3.159 val 2.452 (ppl 11.61) 58s
+[learned_pe/s1] epoch 10 step  2270 train 3.008 val 2.322 (ppl 10.20) 64s
+[learned_pe/s1] epoch 11 step  2497 train 2.868 val 2.238 (ppl 9.37) 70s
+[learned_pe/s1] epoch 12 step  2724 train 2.738 val 2.198 (ppl 9.01) 77s
+[learned_pe/s1] epoch 13 step  2951 train 2.638 val 2.139 (ppl 8.49) 84s
+[learned_pe/s1] epoch 14 step  3178 train 2.548 val 2.107 (ppl 8.22) 90s
+[learned_pe/s1] epoch 15 step  3405 train 2.469 val 2.101 (ppl 8.18) 96s
+[learned_pe/s1] epoch 16 step  3632 train 2.408 val 2.073 (ppl 7.95) 103s
+[learned_pe/s1] epoch 17 step  3859 train 2.341 val 2.067 (ppl 7.90) 109s
+[learned_pe/s1] epoch 18 step  4086 train 2.291 val 2.067 (ppl 7.90) 116s
+[learned_pe/s1] epoch 19 step  4313 train 2.240 val 2.064 (ppl 7.88) 122s
+[learned_pe/s1] epoch 20 step  4540 train 2.200 val 2.062 (ppl 7.86) 128s
+[learned_pe/s1] test BLEU 31.79 | params 7,594,496 | 129s
+[learned_pe/s2] epoch  1 step   227 train 7.582 val 6.021 (ppl 412.15) 6s
+[learned_pe/s2] epoch  2 step   454 train 5.936 val 4.973 (ppl 144.46) 12s
+[learned_pe/s2] epoch  3 step   681 train 5.167 val 4.314 (ppl 74.72) 19s
+[learned_pe/s2] epoch  4 step   908 train 4.642 val 3.748 (ppl 42.43) 26s
+[learned_pe/s2] epoch  5 step  1135 train 4.208 val 3.312 (ppl 27.44) 32s
+[learned_pe/s2] epoch  6 step  1362 train 3.834 val 2.934 (ppl 18.80) 38s
+[learned_pe/s2] epoch  7 step  1589 train 3.529 val 2.707 (ppl 14.98) 44s
+[learned_pe/s2] epoch  8 step  1816 train 3.305 val 2.571 (ppl 13.08) 50s
+[learned_pe/s2] epoch  9 step  2043 train 3.153 val 2.439 (ppl 11.47) 57s
+[learned_pe/s2] epoch 10 step  2270 train 3.005 val 2.306 (ppl 10.04) 64s
+[learned_pe/s2] epoch 11 step  2497 train 2.857 val 2.240 (ppl 9.39) 70s
+[learned_pe/s2] epoch 12 step  2724 train 2.740 val 2.174 (ppl 8.79) 76s
+[learned_pe/s2] epoch 13 step  2951 train 2.634 val 2.139 (ppl 8.49) 83s
+[learned_pe/s2] epoch 14 step  3178 train 2.544 val 2.107 (ppl 8.23) 89s
+[learned_pe/s2] epoch 15 step  3405 train 2.470 val 2.072 (ppl 7.94) 95s
+[learned_pe/s2] epoch 16 step  3632 train 2.401 val 2.074 (ppl 7.96) 102s
+[learned_pe/s2] epoch 17 step  3859 train 2.343 val 2.065 (ppl 7.89) 108s
+[learned_pe/s2] epoch 18 step  4086 train 2.291 val 2.086 (ppl 8.05) 115s
+[learned_pe/s2] epoch 19 step  4313 train 2.243 val 2.079 (ppl 8.00) 121s
+[learned_pe/s2] epoch 20 step  4540 train 2.200 val 2.038 (ppl 7.68) 127s
+[learned_pe/s2] test BLEU 33.11 | params 7,594,496 | 128s
+[no_pe/s1] epoch  1 step   227 train 7.562 val 6.000 (ppl 403.36) 7s
+[no_pe/s1] epoch  2 step   454 train 5.923 val 4.975 (ppl 144.76) 14s
+[no_pe/s1] epoch  3 step   681 train 5.173 val 4.274 (ppl 71.82) 20s
+[no_pe/s1] epoch  4 step   908 train 4.658 val 3.791 (ppl 44.29) 25s
+[no_pe/s1] epoch  5 step  1135 train 4.242 val 3.383 (ppl 29.45) 31s
+[no_pe/s1] epoch  6 step  1362 train 3.895 val 3.067 (ppl 21.48) 38s
+[no_pe/s1] epoch  7 step  1589 train 3.611 val 2.856 (ppl 17.40) 44s
+[no_pe/s1] epoch  8 step  1816 train 3.403 val 2.664 (ppl 14.35) 50s
+[no_pe/s1] epoch  9 step  2043 train 3.251 val 2.598 (ppl 13.43) 56s
+[no_pe/s1] epoch 10 step  2270 train 3.110 val 2.527 (ppl 12.51) 62s
+[no_pe/s1] epoch 11 step  2497 train 2.963 val 2.420 (ppl 11.24) 68s
+[no_pe/s1] epoch 12 step  2724 train 2.841 val 2.394 (ppl 10.95) 75s
+[no_pe/s1] epoch 13 step  2951 train 2.738 val 2.344 (ppl 10.43) 81s
+[no_pe/s1] epoch 14 step  3178 train 2.649 val 2.326 (ppl 10.24) 87s
+[no_pe/s1] epoch 15 step  3405 train 2.571 val 2.295 (ppl 9.92) 93s
+[no_pe/s1] epoch 16 step  3632 train 2.500 val 2.285 (ppl 9.83) 100s
+[no_pe/s1] epoch 17 step  3859 train 2.440 val 2.289 (ppl 9.86) 106s
+[no_pe/s1] epoch 18 step  4086 train 2.386 val 2.279 (ppl 9.77) 112s
+[no_pe/s1] epoch 19 step  4313 train 2.336 val 2.311 (ppl 10.08) 118s
+[no_pe/s1] epoch 20 step  4540 train 2.294 val 2.278 (ppl 9.76) 124s
+[no_pe/s1] test BLEU 26.04 | params 7,577,600 | 125s
+[no_pe/s2] epoch  1 step   227 train 7.577 val 6.026 (ppl 414.04) 6s
+[no_pe/s2] epoch  2 step   454 train 5.951 val 4.995 (ppl 147.63) 13s
+[no_pe/s2] epoch  3 step   681 train 5.174 val 4.322 (ppl 75.31) 19s
+[no_pe/s2] epoch  4 step   908 train 4.661 val 3.789 (ppl 44.20) 25s
+[no_pe/s2] epoch  5 step  1135 train 4.253 val 3.378 (ppl 29.31) 31s
+[no_pe/s2] epoch  6 step  1362 train 3.909 val 3.054 (ppl 21.20) 37s
+[no_pe/s2] epoch  7 step  1589 train 3.628 val 2.842 (ppl 17.14) 44s
+[no_pe/s2] epoch  8 step  1816 train 3.412 val 2.712 (ppl 15.06) 50s
+[no_pe/s2] epoch  9 step  2043 train 3.261 val 2.583 (ppl 13.23) 56s
+[no_pe/s2] epoch 10 step  2270 train 3.114 val 2.503 (ppl 12.22) 62s
+[no_pe/s2] epoch 11 step  2497 train 2.966 val 2.427 (ppl 11.33) 69s
+[no_pe/s2] epoch 12 step  2724 train 2.851 val 2.377 (ppl 10.77) 75s
+[no_pe/s2] epoch 13 step  2951 train 2.748 val 2.339 (ppl 10.38) 81s
+[no_pe/s2] epoch 14 step  3178 train 2.655 val 2.317 (ppl 10.15) 87s
+[no_pe/s2] epoch 15 step  3405 train 2.580 val 2.295 (ppl 9.93) 93s
+[no_pe/s2] epoch 16 step  3632 train 2.510 val 2.278 (ppl 9.75) 100s
+[no_pe/s2] epoch 17 step  3859 train 2.449 val 2.295 (ppl 9.93) 106s
+[no_pe/s2] epoch 18 step  4086 train 2.397 val 2.284 (ppl 9.82) 112s
+[no_pe/s2] epoch 19 step  4313 train 2.344 val 2.270 (ppl 9.68) 119s
+[no_pe/s2] epoch 20 step  4540 train 2.300 val 2.288 (ppl 9.85) 125s
+[no_pe/s2] test BLEU 27.52 | params 7,577,600 | 126s
+[no_scale/s1] epoch  1 step   227 train 7.881 val 6.531 (ppl 686.08) 6s
+[no_scale/s1] epoch  2 step   454 train 6.384 val 5.560 (ppl 259.76) 12s
+[no_scale/s1] epoch  3 step   681 train 5.734 val 4.953 (ppl 141.55) 19s
+[no_scale/s1] epoch  4 step   908 train 5.266 val 4.506 (ppl 90.57) 25s
+[no_scale/s1] epoch  5 step  1135 train 4.930 val 4.137 (ppl 62.63) 31s
+[no_scale/s1] epoch  6 step  1362 train 4.663 val 3.888 (ppl 48.80) 37s
+[no_scale/s1] epoch  7 step  1589 train 4.456 val 3.712 (ppl 40.92) 43s
+[no_scale/s1] epoch  8 step  1816 train 4.314 val 3.545 (ppl 34.66) 49s
+[no_scale/s1] epoch  9 step  2043 train 4.240 val 3.511 (ppl 33.50) 55s
+[no_scale/s1] epoch 10 step  2270 train 4.167 val 3.463 (ppl 31.93) 61s
+[no_scale/s1] epoch 11 step  2497 train 4.089 val 3.342 (ppl 28.28) 67s
+[no_scale/s1] epoch 12 step  2724 train 4.005 val 3.318 (ppl 27.61) 73s
+[no_scale/s1] epoch 13 step  2951 train 3.952 val 3.203 (ppl 24.60) 80s
+[no_scale/s1] epoch 14 step  3178 train 3.872 val 3.158 (ppl 23.52) 86s
+[no_scale/s1] epoch 15 step  3405 train 3.834 val 3.143 (ppl 23.16) 92s
+[no_scale/s1] epoch 16 step  3632 train 3.782 val 3.086 (ppl 21.90) 98s
+[no_scale/s1] epoch 17 step  3859 train 3.723 val 3.010 (ppl 20.29) 104s
+[no_scale/s1] epoch 18 step  4086 train 3.675 val 2.974 (ppl 19.56) 110s
+[no_scale/s1] epoch 19 step  4313 train 3.635 val 2.947 (ppl 19.04) 117s
+[no_scale/s1] epoch 20 step  4540 train 3.583 val 2.889 (ppl 17.97) 123s
+[no_scale/s1] test BLEU 20.83 | params 7,577,600 | 124s
+[no_scale/s2] epoch  1 step   227 train 7.922 val 6.585 (ppl 723.91) 6s
+[no_scale/s2] epoch  2 step   454 train 6.386 val 5.605 (ppl 271.72) 12s
+[no_scale/s2] epoch  3 step   681 train 5.744 val 4.946 (ppl 140.64) 19s
+[no_scale/s2] epoch  4 step   908 train 5.266 val 4.479 (ppl 88.16) 25s
+[no_scale/s2] epoch  5 step  1135 train 4.916 val 4.129 (ppl 62.11) 31s
+[no_scale/s2] epoch  6 step  1362 train 4.643 val 3.838 (ppl 46.43) 37s
+[no_scale/s2] epoch  7 step  1589 train 4.440 val 3.694 (ppl 40.21) 43s
+[no_scale/s2] epoch  8 step  1816 train 4.295 val 3.531 (ppl 34.16) 49s
+[no_scale/s2] epoch  9 step  2043 train 4.213 val 3.463 (ppl 31.90) 56s
+[no_scale/s2] epoch 10 step  2270 train 4.144 val 3.400 (ppl 29.97) 62s
+[no_scale/s2] epoch 11 step  2497 train 4.054 val 3.311 (ppl 27.42) 68s
+[no_scale/s2] epoch 12 step  2724 train 3.983 val 3.258 (ppl 26.00) 74s
+[no_scale/s2] epoch 13 step  2951 train 3.924 val 3.195 (ppl 24.41) 80s
+[no_scale/s2] epoch 14 step  3178 train 3.854 val 3.111 (ppl 22.45) 86s
+[no_scale/s2] epoch 15 step  3405 train 3.789 val 3.078 (ppl 21.71) 92s
+[no_scale/s2] epoch 16 step  3632 train 3.750 val 3.043 (ppl 20.97) 99s
+[no_scale/s2] epoch 17 step  3859 train 3.683 val 3.016 (ppl 20.42) 105s
+[no_scale/s2] epoch 18 step  4086 train 3.650 val 2.959 (ppl 19.27) 111s
+[no_scale/s2] epoch 19 step  4313 train 3.593 val 2.901 (ppl 18.19) 117s
+[no_scale/s2] epoch 20 step  4540 train 3.552 val 2.894 (ppl 18.07) 123s
+[no_scale/s2] test BLEU 19.68 | params 7,577,600 | 125s
+[no_scale_h1/s1] epoch  1 step   227 train 8.299 val 7.338 (ppl 1537.82) 6s
+[no_scale_h1/s1] epoch  2 step   454 train 7.037 val 6.299 (ppl 543.79) 12s
+[no_scale_h1/s1] epoch  3 step   681 train 6.384 val 5.651 (ppl 284.45) 17s
+[no_scale_h1/s1] epoch  4 step   908 train 5.837 val 5.077 (ppl 160.35) 23s
+[no_scale_h1/s1] epoch  5 step  1135 train 5.456 val 4.757 (ppl 116.42) 29s
+[no_scale_h1/s1] epoch  6 step  1362 train 5.249 val 4.606 (ppl 100.07) 35s
+[no_scale_h1/s1] epoch  7 step  1589 train 5.137 val 4.520 (ppl 91.83) 41s
+[no_scale_h1/s1] epoch  8 step  1816 train 4.991 val 4.297 (ppl 73.51) 46s
+[no_scale_h1/s1] epoch  9 step  2043 train 4.893 val 4.262 (ppl 70.92) 52s
+[no_scale_h1/s1] epoch 10 step  2270 train 4.802 val 4.162 (ppl 64.17) 58s
+[no_scale_h1/s1] epoch 11 step  2497 train 4.749 val 4.155 (ppl 63.74) 64s
+[no_scale_h1/s1] epoch 12 step  2724 train 4.721 val 4.131 (ppl 62.21) 70s
+[no_scale_h1/s1] epoch 13 step  2951 train 4.658 val 4.038 (ppl 56.69) 76s
+[no_scale_h1/s1] epoch 14 step  3178 train 4.612 val 4.004 (ppl 54.79) 82s
+[no_scale_h1/s1] epoch 15 step  3405 train 4.594 val 4.001 (ppl 54.65) 87s
+[no_scale_h1/s1] epoch 16 step  3632 train 4.541 val 3.981 (ppl 53.57) 93s
+[no_scale_h1/s1] epoch 17 step  3859 train 4.505 val 3.945 (ppl 51.69) 99s
+[no_scale_h1/s1] epoch 18 step  4086 train 4.477 val 3.970 (ppl 52.99) 105s
+[no_scale_h1/s1] epoch 19 step  4313 train 4.471 val 3.885 (ppl 48.68) 111s
+[no_scale_h1/s1] epoch 20 step  4540 train 4.433 val 3.896 (ppl 49.23) 117s
+[no_scale_h1/s1] test BLEU 1.22 | params 7,577,600 | 119s
+[no_scale_h1/s2] epoch  1 step   227 train 8.377 val 7.416 (ppl 1662.44) 6s
+[no_scale_h1/s2] epoch  2 step   454 train 7.067 val 6.429 (ppl 619.54) 12s
+[no_scale_h1/s2] epoch  3 step   681 train 6.431 val 5.806 (ppl 332.41) 18s
+[no_scale_h1/s2] epoch  4 step   908 train 5.936 val 5.165 (ppl 175.12) 23s
+[no_scale_h1/s2] epoch  5 step  1135 train 5.500 val 4.778 (ppl 118.91) 29s
+[no_scale_h1/s2] epoch  6 step  1362 train 5.243 val 4.555 (ppl 95.08) 36s
+[no_scale_h1/s2] epoch  7 step  1589 train 5.072 val 4.400 (ppl 81.42) 41s
+[no_scale_h1/s2] epoch  8 step  1816 train 4.908 val 4.229 (ppl 68.65) 47s
+[no_scale_h1/s2] epoch  9 step  2043 train 4.782 val 4.100 (ppl 60.32) 53s
+[no_scale_h1/s2] epoch 10 step  2270 train 4.658 val 4.028 (ppl 56.15) 59s
+[no_scale_h1/s2] epoch 11 step  2497 train 4.571 val 3.999 (ppl 54.54) 65s
+[no_scale_h1/s2] epoch 12 step  2724 train 4.497 val 3.909 (ppl 49.84) 71s
+[no_scale_h1/s2] epoch 13 step  2951 train 4.445 val 3.929 (ppl 50.88) 77s
+[no_scale_h1/s2] epoch 14 step  3178 train 4.394 val 3.894 (ppl 49.09) 82s
+[no_scale_h1/s2] epoch 15 step  3405 train 4.368 val 3.878 (ppl 48.34) 89s
+[no_scale_h1/s2] epoch 16 step  3632 train 4.329 val 3.843 (ppl 46.68) 94s
+[no_scale_h1/s2] epoch 17 step  3859 train 4.287 val 3.865 (ppl 47.70) 100s
+[no_scale_h1/s2] epoch 18 step  4086 train 4.254 val 3.798 (ppl 44.60) 106s
+[no_scale_h1/s2] epoch 19 step  4313 train 4.225 val 3.828 (ppl 45.98) 112s
+[no_scale_h1/s2] epoch 20 step  4540 train 4.195 val 3.811 (ppl 45.18) 118s
+[no_scale_h1/s2] test BLEU 1.75 | params 7,577,600 | 119s
+base         BLEU 34.09 ± 0.11  val ppl 6.87  params 7,577,600
+h1           BLEU 33.99 ± 0.33  val ppl 7.09  params 7,577,600
+h4           BLEU 35.15 ± 0.24  val ppl 6.80  params 7,577,600
+h32          BLEU 32.57 ± 0.14  val ppl 7.58  params 7,577,600
+learned_pe   BLEU 32.45 ± 0.66  val ppl 7.77  params 7,594,496
+no_pe        BLEU 26.78 ± 0.74  val ppl 9.80  params 7,577,600
+no_scale     BLEU 20.25 ± 0.58  val ppl 18.02  params 7,577,600
+no_scale_h1  BLEU 1.49 ± 0.26  val ppl 47.21  params 7,577,600
+번역: Ein Mann mit einem orangen Hut starrt auf etwas.
+C:\Users\chobh\Desktop\paper-review-blog\notebooks\attention-is-all-you-need\attention-is-all-you-need.py:569: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+C:\Users\chobh\Desktop\paper-review-blog\notebooks\attention-is-all-you-need\attention-is-all-you-need.py:588: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()

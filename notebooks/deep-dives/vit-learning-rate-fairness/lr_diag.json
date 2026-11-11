@@ -1,0 +1,23 @@
+{
+  "note": "ViT 100% 설정(8 layer, D=384, 7,800 step, batch 256)을 learning rate만 바꿔 학습한 결과. 재현 명령(notebooks/vit/에서): lr 1e-3 전체 = `VIT_LR=1e-3 OUTDIR=outputs_lr1e-3 python vit.py` (결과: outputs_lr1e-3/metrics.json), lr 5e-4 = `VIT_LR=5e-4 RUNS=vit_100 OUTDIR=outputs_lr5e-4 python vit.py`, lr 2.5e-4 = 기본 실행 (결과: outputs/metrics.json). 5e-4 값은 2026-11-11 같은 설정의 진단 실행 로그에서 옮겼고, 위 명령으로 다시 만들 수 있다.",
+  "runs": [
+    {
+      "lr": 0.001,
+      "test_acc": 0.6351,
+      "train_acc": 0.651,
+      "source": "notebooks/vit/outputs_lr1e-3/metrics.json"
+    },
+    {
+      "lr": 0.0005,
+      "test_acc": 0.7797,
+      "train_acc": 0.868,
+      "source": "진단 실행 로그"
+    },
+    {
+      "lr": 0.00025,
+      "test_acc": 0.8145,
+      "train_acc": 0.943,
+      "source": "진단 실행 로그 (본 실험 notebooks/vit/outputs/metrics.json도 81.45%)"
+    }
+  ]
+}
